@@ -476,5 +476,5 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 ## 👤 Author
 
-**Erfan Nayeb Aghaei** — Junior SOC Analyst roles in Europe (2026)  
+**Erfan Nayeb Aghaei** — Junior SOC Analyst  
 [LinkedIn](https://www.linkedin.com/in/erfan-nayeb-aghaei/) · [GitHub](https://github.com/erfannayeb)
