@@ -450,7 +450,7 @@ This project directly maps to the core responsibilities of a **Tier 1 / Junior S
 | Visualization      | OpenSearch Dashboards                           |
 | Attacker OS        | Kali Linux                                      |
 | Victim OS          | Windows 11                                      |
-| Server OS          | Ubuntu Server 22.04 LTS                         |
+| Server OS          | Ubuntu Server 26.04 LTS                         |
 | Virtualization     | VirtualBox / VMware Workstation                 |
 | Endpoint Telemetry | Sysmon (SwiftOnSecurity config)                 |
 | Attack Tools       | Hydra, Nmap, Metasploit, Mimikatz (isolated VM) |
