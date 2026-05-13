@@ -275,7 +275,10 @@ hydra -l administrator -P /usr/share/wordlists/rockyou.txt smb://<WINDOWS_11_IP>
 - Rule **18152** — Possible attack detected (multiple authentication failures)
 - Windows Event IDs: **4625** (Failed logon), **4776** (Credential validation failure)
 
-**Screenshot:** [`screenshots/failed-login-alert.png`](./screenshots/failed-login-alert.png)
+**Screenshot:** 
+
+[`screenshots/failed-login-alert.png`](./screenshots/failed-login-alert.png)
+[`screenshots/failed-login-alert2.png`](./screenshots/failed-login-alert2.png)
 
 **Key Observations:**
 
@@ -305,7 +308,11 @@ net localgroup administrators backdooruser /add
 - Rule **60109** — User added to local administrators group
 - Windows Event IDs: **4720** (User account created), **4732** (Member added to security group)
 
-**Screenshot:** [`screenshots/new-user-created-alert.png`](./screenshots/new-user-created-alert.png)
+**Screenshot:**
+
+[`screenshots/new-user-created-alert.png`](./screenshots/new-user-created-alert.png)
+[`screenshots/new-user-created-alert-threat-events.png`](./screenshots/new-user-created-alert-threat-events.png)
+
 
 **Key Observations:**
 
