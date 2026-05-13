@@ -389,45 +389,26 @@ The Security Events module allows filtering by:
 
 ## Planned Expansions (Roadmap)
 
-These tasks are actively being developed to grow the lab into a comprehensive SOC portfolio:
-
 ### Phase 2 — Detection Engineering
-
 - [ ] Write custom Wazuh rules in `local_rules.xml` for lab-specific scenarios
 - [ ] Tune alert thresholds to reduce false positives
 - [ ] Map all custom rules to MITRE ATT&CK IDs
-- [ ] Test PowerShell execution logging and script block logging detection
+- [ ] Test PowerShell script block logging detection
 
 ### Phase 3 — Advanced Attack Scenarios
+- [ ] Simulate credential dumping (Mimikatz/LSASS) and detect with Sysmon
+- [ ] Simulate lateral movement via PsExec and detect with Wazuh
 
-- [ ] Simulate Pass-the-Hash attack (Mimikatz) and detect with Wazuh + Sysmon
-- [ ] Simulate lateral movement via PsExec / WMI
-- [ ] Simulate ransomware behavior (mass file rename/encryption) using a safe script
-- [ ] Simulate C2 beacon traffic and detect with network rules
+### Phase 4 — Threat Intelligence
+- [ ] Integrate VirusTotal API for automatic IoC enrichment on alerts
 
-### Phase 4 — Threat Intelligence Integration
+### Phase 5 — Hardening & Compliance
+- [ ] Run Wazuh SCA against CIS Benchmarks on Windows 11 victim
+- [ ] Document findings and remediation steps
 
-- [ ] Integrate VirusTotal API with Wazuh for automatic IoC enrichment
-- [ ] Add MISP threat intelligence feeds
-- [ ] Configure active response to auto-block attacker IPs after threshold breaches
-
-### Phase 5 — SOAR / Automation
-
-- [ ] Set up Shuffle (open-source SOAR) and connect to Wazuh webhooks
-- [ ] Build automated incident response playbooks (e.g., isolate host on critical alert)
-- [ ] Create automated daily alert summary email reports
-
-### Phase 6 — Hardening & Compliance
-
-- [ ] Run Wazuh SCA (Security Configuration Assessment) against CIS Benchmarks
-- [ ] Remediate findings and document improvement
-- [ ] Add file integrity monitoring (FIM) for sensitive Windows directories
-
-### Phase 7 — Dashboards & Reporting
-
-- [ ] Build a custom Kibana/OpenSearch dashboard for SOC metrics
-- [ ] Create incident report templates and fill them for each simulation
-- [ ] Export weekly summary reports as PDFs for portfolio evidence
+### Phase 6 — Reporting
+- [ ] Write structured incident reports for each simulation
+- [ ] Build one custom dashboard showing SOC metrics (alert volume, top rules, MITRE coverage)
 
 ---
 
