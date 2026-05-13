@@ -1,4 +1,4 @@
-# Attack Simulation 01 — RDP Brute Force
+# Attack Simulation — RDP Brute Force
 
 ## MITRE ATT&CK
 - **Tactic:** Credential Access
