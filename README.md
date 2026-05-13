@@ -88,7 +88,7 @@ homelab-siem-wazuh/
 | ------------ | ----------------------- | ----------------------------------- | ---- | ----- |
 | Attacker     | Kali Linux (latest)     | Simulating adversary TTPs           | 2 GB | 2     |
 | SIEM Manager | Ubuntu Server 22.04 LTS | Wazuh Manager + Indexer + Dashboard | 4 GB | 2     |
-| Victim       | Windows 11              | Endpoint with Wazuh Agent           | 4 GB | 2     |
+| Victim       | Windows 11              | Endpoint with Wazuh Agent           | 6 GB | 4     |
 | Host         | Windows 11              | Dashboard analysis, documentation   | —    | —     |
 
 ---
