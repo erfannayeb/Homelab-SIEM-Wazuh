@@ -1,4 +1,4 @@
-# Attack Simulation 03 — New Local User Creation & Privilege Escalation
+# Attack Simulation — New Local User Creation & Privilege Escalation
 
 ## MITRE ATT&CK
 - **Tactic:** Persistence / Privilege Escalation
