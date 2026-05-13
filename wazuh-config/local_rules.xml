@@ -1,0 +1,44 @@
+<!-- local_rules.xml — Custom Wazuh Detection Rules -->
+<!-- Location on Wazuh server: /var/ossec/etc/rules/local_rules.xml -->
+
+<group name="local,custom">
+
+  <!-- Rule: Detect multiple failed RDP logons (brute force threshold) -->
+  <rule id="100001" level="12" frequency="10" timeframe="60">
+    <if_matched_sid>60122</if_matched_sid>
+    <description>Possible RDP brute force attack — 10+ failures in 60 seconds</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+  </rule>
+
+  <!-- Rule: Detect new local user creation -->
+  <rule id="100002" level="10">
+    <if_sid>60106</if_sid>
+    <description>New local user account created — possible persistence</description>
+    <mitre>
+      <id>T1136.001</id>
+    </mitre>
+  </rule>
+
+  <!-- Rule: Detect user added to Administrators group -->
+  <rule id="100003" level="12">
+    <if_sid>60111</if_sid>
+    <field name="win.eventdata.targetUserName">Administrators</field>
+    <description>User added to local Administrators group — privilege escalation</description>
+    <mitre>
+      <id>T1078.003</id>
+    </mitre>
+  </rule>
+
+  <!-- Rule: Detect encoded PowerShell commands -->
+  <rule id="100004" level="10">
+    <if_sid>91801</if_sid>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)encodedcommand|enc |frombase64</field>
+    <description>Encoded PowerShell command detected — possible evasion technique</description>
+    <mitre>
+      <id>T1059.001</id>
+    </mitre>
+  </rule>
+
+</group>
