@@ -390,10 +390,10 @@ The Security Events module allows filtering by:
 ## Planned Expansions (Roadmap)
 
 ### Phase 2 — Detection Engineering
-- [ ] Write custom Wazuh rules in `local_rules.xml` for lab-specific scenarios
-- [ ] Tune alert thresholds to reduce false positives
-- [ ] Map all custom rules to MITRE ATT&CK IDs
-- [ ] Test PowerShell script block logging detection
+- [✅] Write custom Wazuh rules in `local_rules.xml` for lab-specific scenarios
+- [✅] Tune alert thresholds to reduce false positives
+- [✅] Map all custom rules to MITRE ATT&CK IDs
+- [✅] Test PowerShell script block logging detection
 
 ### Phase 3 — Advanced Attack Scenarios
 - [ ] Simulate credential dumping (Mimikatz/LSASS) and detect with Sysmon
