@@ -1,44 +1,145 @@
-<!-- local_rules.xml — Custom Wazuh Detection Rules -->
-<!-- Location on Wazuh server: /var/ossec/etc/rules/local_rules.xml -->
-
+<!--  local_rules.xml  -->
+<!--  Analyst: Erfan Nayeb Aghaei | Lab: homelab-siem-wazuh  -->
 <group name="local,custom">
-
-  <!-- Rule: Detect multiple failed RDP logons (brute force threshold) -->
-  <rule id="100001" level="12" frequency="10" timeframe="60">
-    <if_matched_sid>60122</if_matched_sid>
-    <description>Possible RDP brute force attack — 10+ failures in 60 seconds</description>
-    <mitre>
-      <id>T1110.001</id>
-    </mitre>
-  </rule>
-
-  <!-- Rule: Detect new local user creation -->
-  <rule id="100002" level="10">
-    <if_sid>60106</if_sid>
-    <description>New local user account created — possible persistence</description>
-    <mitre>
-      <id>T1136.001</id>
-    </mitre>
-  </rule>
-
-  <!-- Rule: Detect user added to Administrators group -->
-  <rule id="100003" level="12">
-    <if_sid>60111</if_sid>
-    <field name="win.eventdata.targetUserName">Administrators</field>
-    <description>User added to local Administrators group — privilege escalation</description>
-    <mitre>
-      <id>T1078.003</id>
-    </mitre>
-  </rule>
-
-  <!-- Rule: Detect encoded PowerShell commands -->
-  <rule id="100004" level="10">
-    <if_sid>91801</if_sid>
-    <field name="win.eventdata.commandLine" type="pcre2">(?i)encodedcommand|enc |frombase64</field>
-    <description>Encoded PowerShell command detected — possible evasion technique</description>
-    <mitre>
-      <id>T1059.001</id>
-    </mitre>
-  </rule>
-
+<!--  ============================================  -->
+<!--  BRUTE FORCE DETECTION                         -->
+<!--  ============================================  -->
+<!--  RDP Brute Force — 10 failures in 60 seconds  -->
+<rule id="100001" level="12" frequency="10" timeframe="60">
+<if_matched_sid>60122</if_matched_sid>
+<description>RDP Brute Force detected — 10+ failures in 60s from same source</description>
+<mitre>
+<id>T1110.001</id>
+</mitre>
+<group>brute_force,rdp</group>
+</rule>
+<!--  SMB Brute Force  -->
+<rule id="100002" level="12" frequency="8" timeframe="60">
+<if_matched_sid>18116</if_matched_sid>
+<description>SMB Brute Force detected — multiple failed SMB authentications</description>
+<mitre>
+<id>T1110.002</id>
+</mitre>
+<group>brute_force,smb</group>
+</rule>
+<!--  ============================================  -->
+<!--  PERSISTENCE DETECTION                         -->
+<!--  ============================================  -->
+<!--  New local user created  -->
+<rule id="100010" level="10">
+<if_sid>60106</if_sid>
+<description>New local user account created — possible persistence mechanism</description>
+<mitre>
+<id>T1136.001</id>
+</mitre>
+<group>persistence,account_creation</group>
+</rule>
+<!--  User added to Administrators  -->
+<rule id="100011" level="14">
+<if_sid>60111</if_sid>
+<field name="win.eventdata.targetUserName" type="pcre2">(?i)administrators</field>
+<description>User added to local Administrators group — privilege escalation</description>
+<mitre>
+<id>T1078.003</id>
+</mitre>
+<group>persistence,privilege_escalation</group>
+</rule>
+<!--  New service installed  -->
+<rule id="100012" level="10">
+<if_sid>60010</if_sid>
+<field name="win.system.eventID">^7045$</field>
+<description>New Windows service installed — possible persistence</description>
+<mitre>
+<id>T1543.003</id>
+</mitre>
+<group>persistence,service_installation</group>
+</rule>
+<!--  ============================================  -->
+<!--  EXECUTION DETECTION                           -->
+<!--  ============================================  -->
+<!--  Encoded PowerShell command  -->
+<rule id="100020" level="10">
+<if_sid>91801</if_sid>
+<field name="win.eventdata.commandLine" type="pcre2">(?i)encodedcommand|(\-enc\s)|(\-en\s)</field>
+<description>Encoded PowerShell command detected — possible defense evasion</description>
+<mitre>
+<id>T1059.001</id>
+</mitre>
+<group>execution,powershell,defense_evasion</group>
+</rule>
+<!--  PowerShell download cradle  -->
+<rule id="100021" level="12">
+<if_sid>91801</if_sid>
+<field name="win.eventdata.commandLine" type="pcre2">(?i)(IEX|Invoke-Expression|DownloadString|WebClient|Net\.WebClient)</field>
+<description>PowerShell download cradle detected — possible fileless malware</description>
+<mitre>
+<id>T1059.001</id>
+</mitre>
+<group>execution,powershell,fileless</group>
+</rule>
+<!--  PowerShell execution policy bypass  -->
+<rule id="100022" level="10">
+<if_sid>91801</if_sid>
+<field name="win.eventdata.commandLine" type="pcre2">(?i)(bypass|unrestricted|hidden|noprofile|noninteractive)</field>
+<description>PowerShell execution policy bypass detected</description>
+<mitre>
+<id>T1059.001</id>
+</mitre>
+<group>execution,powershell,bypass</group>
+</rule>
+<!--  ============================================  -->
+<!--  CREDENTIAL ACCESS DETECTION                   -->
+<!--  ============================================  -->
+<!--  LSASS memory access (Mimikatz)  -->
+<rule id="100030" level="14">
+<if_sid>61612</if_sid>
+<field name="win.eventdata.targetImage" type="pcre2">(?i)lsass\.exe</field>
+<description>LSASS process access detected — possible credential dumping (Mimikatz)</description>
+<mitre>
+<id>T1003.001</id>
+</mitre>
+<group>credential_access,mimikatz</group>
+</rule>
+<!--  Multiple failed logons — possible password spray  -->
+<rule id="100031" level="12" frequency="20" timeframe="120">
+<if_matched_sid>60122</if_matched_sid>
+<description>Possible password spray — 20+ failed logons across accounts in 2 minutes</description>
+<mitre>
+<id>T1110.003</id>
+</mitre>
+<group>credential_access,password_spray</group>
+</rule>
+<!--  ============================================  -->
+<!--  DISCOVERY DETECTION                           -->
+<!--  ============================================  -->
+<!--  Net.exe recon via PowerShell logging  -->
+<rule id="100040" level="8">
+<if_sid>91801</if_sid>
+<field name="win.eventdata.commandLine" type="pcre2">(?i)(net user|net localgroup|net group|net accounts)</field>
+<description>Net.exe reconnaissance via PowerShell — user/group enumeration</description>
+<mitre>
+<id>T1069.001</id>
+</mitre>
+<group>discovery,enumeration</group>
+</rule>
+<!--  Net.exe recon via Sysmon process creation  -->
+<rule id="100042" level="8">
+<if_sid>61603</if_sid>
+<field name="win.eventdata.commandLine" type="pcre2">(?i)(net user|net localgroup|net group|net accounts)</field>
+<description>Net.exe reconnaissance via process creation — user/group enumeration</description>
+<mitre>
+<id>T1069.001</id>
+</mitre>
+<group>discovery,enumeration</group>
+</rule>
+<!--  Whoami execution  -->
+<rule id="100041" level="6">
+<if_sid>61603</if_sid>
+<field name="win.eventdata.image" type="pcre2">(?i)whoami\.exe</field>
+<description>Whoami executed — attacker checking current user context</description>
+<mitre>
+<id>T1033</id>
+</mitre>
+<group>discovery</group>
+</rule>
 </group>
